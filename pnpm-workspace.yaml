@@ -1,1 +1,11 @@
 dangerouslyAllowAllBuilds: true
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@0.0.0-commit.8b23a00f98df4a9270ac87a4f80b2ce1b669040b
+  vite-plus: 0.0.0-commit.8b23a00f98df4a9270ac87a4f80b2ce1b669040b
+overrides:
+  vite: 'catalog:'
+peerDependencyRules:
+  allowAny:
+    - vite
+  allowedVersions:
+    vite: '*'
