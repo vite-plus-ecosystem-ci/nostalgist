@@ -298,7 +298,8 @@ export class Emulator {
 
     const state = new Blob([stateBuffer], { type: 'application/octet-stream' })
     const thumbnail = stateThumbnailBuffer ? new Blob([stateThumbnailBuffer], { type: 'image/png' }) : undefined
-    return { state, thumbnail }
+    const { multiDiscIndex } = this.options
+    return { state, thumbnail, ...(multiDiscIndex !== undefined && { multiDiscIndex }) }
   }
 
   async screenshot() {
@@ -332,6 +333,50 @@ export class Emulator {
   async setup() {
     await this.setupEmscripten()
     await this.setupFileSystem()
+  }
+
+  async switchDisc(index: number) {
+    const { multiDiscRom } = this.options
+
+    if (!multiDiscRom) {
+      return
+    }
+
+    let delta = this.options.multiDiscIndex ? index - this.options.multiDiscIndex : 0
+    if (delta === 0) {
+      return
+    }
+
+    const requestedRom = multiDiscRom.get(index)
+    if (requestedRom) {
+      const requestedResolvableFile = await this.options.createResolvableFile(requestedRom)
+
+      if (!requestedResolvableFile) {
+        return
+      }
+
+      await this.fs.writeFile(
+        path.join(EmulatorFileSystem.contentDirectory, requestedResolvableFile.name),
+        requestedResolvableFile,
+      )
+
+      multiDiscRom.delete(index)
+    }
+
+    this.sendCommand('DISK_EJECT_TOGGLE')
+
+    while (delta !== 0) {
+      if (delta > 0) {
+        this.sendCommand('DISK_NEXT')
+        delta--
+      } else {
+        this.sendCommand('DISK_PREV')
+        delta++
+      }
+    }
+
+    this.sendCommand('DISK_EJECT_TOGGLE')
+    this.options.multiDiscIndex = index
   }
 
   private clearStateFile() {
@@ -487,6 +532,11 @@ export class Emulator {
     installSetImmediatePolyfill()
 
     this.recordGlobalDOMEventListeners()
+
+    if (this.options.multiDisc) {
+      this.options.multiDiscIndex = 1
+    }
+
     Module.callMain(raArgs)
     for (const [eventTarget] of this.globalDOMEventListeners) {
       // @ts-expect-error the `addEventListener` here is the modified one attached in `recordGlobalDOMEventListeners`

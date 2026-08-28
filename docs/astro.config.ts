@@ -109,6 +109,7 @@ gtag('config', 'G-E6387HS8V0');
                 { badge, label: 'pressDown', link: '/apis/press-down' },
                 { badge, label: 'pressUp', link: '/apis/press-up' },
                 { badge, label: 'sendCommand', link: '/apis/send-command' },
+                { badge, label: 'switchDisc', link: '/apis/switch-disc' },
               ],
               label: 'Instance Methods',
             },

@@ -2,7 +2,7 @@ import { getGlobalOptions } from '../libs/options.ts'
 import { generateValidFileName, getResult, merge } from '../libs/utils.ts'
 import type { NostalgistOptions } from '../types/nostalgist-options.ts'
 import type { RetroArchEmscriptenModuleOptions } from '../types/retroarch-emscripten.ts'
-import { ResolvableFile } from './resolvable-file.ts'
+import { ResolvableFile, type ResolvableFileInput } from './resolvable-file.ts'
 
 // Copied from https://github.com/sindresorhus/is-plain-obj/blob/main/index.js
 function isPlainObject(value: unknown) {
@@ -72,6 +72,12 @@ export class EmulatorOptions {
 
   state?: ResolvableFile | undefined
 
+  multiDisc?: boolean | undefined
+
+  multiDiscRom?: Map<number, ResolvableFileInput> | undefined
+
+  multiDiscIndex?: number | undefined
+
   waitForInteraction: ((params: { done: () => void }) => void) | undefined
 
   /**
@@ -130,6 +136,7 @@ export class EmulatorOptions {
     this.signal = options.signal
     this.size = options.size ?? 'auto'
     this.sramType = options.sramType ?? 'srm'
+
     // oxlint-disable-next-line typescript/no-deprecated
     this.waitForInteraction = options.waitForInteraction
     this.element = this.getElement()
@@ -290,7 +297,6 @@ export class EmulatorOptions {
   }
 
   private async updateRom() {
-    const { resolveRom } = this.nostalgistOptions
     let { rom } = this.nostalgistOptions
     if (!rom) {
       return
@@ -302,18 +308,36 @@ export class EmulatorOptions {
 
     const romFiles = Array.isArray(rom) ? rom : [rom]
 
-    this.rom = await Promise.all(
-      romFiles.map((romFile) =>
-        ResolvableFile.create(
-          typeof romFile === 'string'
-            ? { raw: romFile, signal: this.signal, urlResolver: () => resolveRom(romFile, this.nostalgistOptions) }
-            : { raw: romFile, signal: this.signal },
-        ),
-      ),
-    )
-    for (const resolvable of this.rom) {
-      resolvable.name ||= generateValidFileName()
+    const firstFile = await this.createResolvableFile(romFiles[0])
+    this.multiDisc = firstFile.name.endsWith('.m3u')
+
+    this.rom = [firstFile]
+
+    if (this.multiDisc) {
+      this.rom.push(await this.createResolvableFile(romFiles[1]))
+
+      this.multiDiscRom = new Map()
+      romFiles.slice(2).forEach((file, index) => {
+        this.multiDiscRom?.set(index + 2, file)
+      })
+
+      return
     }
+
+    this.rom.push(...(await Promise.all(romFiles.slice(1).map((file) => this.createResolvableFile(file)))))
+  }
+
+  async createResolvableFile(file: ResolvableFileInput): Promise<ResolvableFile> {
+    const { resolveRom } = this.nostalgistOptions
+    const rom = await ResolvableFile.create(
+      typeof file === 'string'
+        ? { raw: file, signal: this.signal, urlResolver: () => resolveRom(file, this.nostalgistOptions) }
+        : { raw: file, signal: this.signal },
+    )
+
+    rom.name ||= generateValidFileName()
+
+    return rom
   }
 
   private async updateShader() {

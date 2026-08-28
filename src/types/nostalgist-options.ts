@@ -117,6 +117,14 @@ export interface NostalgistOptions {
    *   }]
    * })
    * ```
+   *
+   *  * @example
+   * In case of a multidisc game we need to pass an array that includes a playlist file (.m3u) as the first element following all roms in their logical order.
+   * ```js
+   * const nostalgist = await Nostalgist.launch({
+   *   rom: ['game.m3u', 'game_cd1.chd', 'game_cd2.chd']
+   * })
+   * ```
    */
   rom?: ResolvableFileInput | ResolvableFileInputs
 
