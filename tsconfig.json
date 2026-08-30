@@ -3,5 +3,6 @@
   "compilerOptions": {
     "module": "preserve",
     "noImplicitAny": false
-  }
+  },
+  "exclude": ["docs", "dist"]
 }
