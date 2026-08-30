@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.22.0] - 2026-08-30
+
+### Added
+
+- Add basic multidisc fuctionality
+
 ## [0.21.1] - 2026-05-08
 
 ### Fixed
@@ -321,9 +327,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - fix core loading ([9790327](https://github.com/arianrhodsandlot/nostalgist/commit/97903270c39788b3d05b7f7d0700ccdf32503a9e))
 
-[Unreleased]: https://github.com/arianrhodsandlot/eslint-config/compare/v0.21.1...HEAD
-[0.20.0]: https://github.com/arianrhodsandlot/eslint-config/compare/v0.20.1...v0.20.2
-[0.20.0]: https://github.com/arianrhodsandlot/eslint-config/compare/v0.20.0...v0.20.1
+[Unreleased]: https://github.com/arianrhodsandlot/eslint-config/compare/v0.22.0...HEAD
+[0.22.0]: https://github.com/arianrhodsandlot/eslint-config/compare/v0.21.1...v0.22.0
+[0.21.1]: https://github.com/arianrhodsandlot/eslint-config/compare/v0.21.0...v0.21.1
+[0.21.0]: https://github.com/arianrhodsandlot/eslint-config/compare/v0.20.0...v0.21.0
 [0.20.0]: https://github.com/arianrhodsandlot/eslint-config/compare/v0.19.2...v0.20.0
 [0.19.2]: https://github.com/arianrhodsandlot/eslint-config/compare/v0.19.1...v0.19.2
 [0.19.1]: https://github.com/arianrhodsandlot/eslint-config/compare/v0.19.0...v0.19.1
