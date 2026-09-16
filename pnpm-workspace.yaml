@@ -1,2 +1,23 @@
 dangerouslyAllowAllBuilds: true
 minimumReleaseAge: 0
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@0.0.0-commit.134033efc595ae5efab9df5c177a9ae20904a5d9
+  vite-plus: 0.0.0-commit.134033efc595ae5efab9df5c177a9ae20904a5d9
+overrides:
+  vite@*: 'catalog:'
+peerDependencyRules:
+  allowAny:
+    - vite
+  allowedVersions:
+    vite: '*'
+minimumReleaseAgeExclude:
+  - vite-plus
+  - '@voidzero-dev/*'
+  - oxlint
+  - '@oxlint/*'
+  - oxlint-tsgolint
+  - '@oxlint-tsgolint/*'
+  - oxfmt
+  - '@oxfmt/*'
+  - vitest
+  - '@vitest/*'
