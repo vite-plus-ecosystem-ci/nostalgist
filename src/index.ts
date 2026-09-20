@@ -1,1 +1,1 @@
-export { Nostalgist } from './classes/nostalgist.ts'
+export { Nostalgist } from './entries/esm.ts'

@@ -2,6 +2,7 @@
   "extends": "@tsconfig/node-ts",
   "compilerOptions": {
     "module": "preserve",
+    "target": "esnext",
     "noImplicitAny": false
   },
   "exclude": ["docs", "dist"]
