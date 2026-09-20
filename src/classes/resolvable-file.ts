@@ -11,9 +11,9 @@ import { vendors } from '../libs/vendors.ts'
 
 const { path } = vendors
 
-const fileNameHeaderRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/
+const fileNameHeaderRegex = /filename[^;=\n]*=(?<filename>(?<quote>['"]).*?\k<quote>|[^;\n]*)/u
 
-const urlSegmentSeparator = /[?/#]/
+const urlSegmentSeparator = /[?/#]/u
 function isURLStringLike(value: unknown): value is string {
   if (typeof value !== 'string') {
     return false
@@ -269,7 +269,7 @@ export class ResolvableFile {
   private async loadResponse(response: Response) {
     const header = response.headers.get('Content-Disposition')
     if (header) {
-      const extracted = fileNameHeaderRegex.exec(header)?.[1]?.replaceAll(/['"]/g, '')
+      const extracted = fileNameHeaderRegex.exec(header)?.groups?.filename?.replaceAll(/['"]/gu, '')
       if (extracted) {
         this.name ||= extractValidFileName(extracted)
       }

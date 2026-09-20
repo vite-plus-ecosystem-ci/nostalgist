@@ -32,7 +32,7 @@ export function generateValidFileName(extension = 'bin') {
 
 export function extractValidFileName(url: string) {
   let baseName = urlBaseName(url) || ''
-  baseName = baseName.replaceAll(/["%*/:<>?\\|]/g, '-')
+  baseName = baseName.replaceAll(/["%*/:<>?\\|]/gu, '-')
   const extractedExtension = path.parse(baseName).ext
   if (extractedExtension) {
     return baseName

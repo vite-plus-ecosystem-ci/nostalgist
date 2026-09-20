@@ -1,5 +1,6 @@
 {
   "name": "nostalgist",
+  "version": "",
   "description": "Nostalgist.js is a JavaScript library that allows you to run emulators of retro consoles within web browsers.",
   "keywords": [
     "emscripten",
@@ -15,7 +16,10 @@
     "name": "arianrhodsandlot",
     "email": "theguidanceofawhitetower@gmail.com"
   },
-  "repository": "arianrhodsandlot/nostalgist",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arianrhodsandlot/nostalgist.git"
+  },
   "funding": {
     "url": "https://github.com/sponsors/arianrhodsandlot"
   },
@@ -66,6 +70,9 @@
     "path-browserify": "1.0.1",
     "typescript": "7.0.2",
     "vite-plus": "0.3.3"
+  },
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.3.3"
   },
   "devEngines": {
     "packageManager": {

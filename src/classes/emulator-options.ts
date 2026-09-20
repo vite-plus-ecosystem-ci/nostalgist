@@ -317,9 +317,9 @@ export class EmulatorOptions {
       this.rom.push(await this.createResolvableFile(romFiles[1]))
 
       this.multiDiscRom = new Map()
-      romFiles.slice(2).forEach((file, index) => {
+      for (const [index, file] of romFiles.slice(2).entries()) {
         this.multiDiscRom?.set(index + 2, file)
-      })
+      }
 
       return
     }

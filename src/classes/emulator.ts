@@ -368,10 +368,10 @@ export class Emulator {
     while (delta !== 0) {
       if (delta > 0) {
         this.sendCommand('DISK_NEXT')
-        delta--
+        delta -= 1
       } else {
         this.sendCommand('DISK_PREV')
-        delta++
+        delta += 1
       }
     }
 

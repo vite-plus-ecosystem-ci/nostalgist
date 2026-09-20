@@ -5,21 +5,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: voidzero-dev/setup-vp@v1
+      - uses: voidzero-dev/setup-vp@v1.20.0
       - run: vp check
 
   test-integration:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: voidzero-dev/setup-vp@v1
+      - uses: voidzero-dev/setup-vp@v1.20.0
       - run: vp run test:integration
 
   test-e2e:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: voidzero-dev/setup-vp@v1
+      - uses: voidzero-dev/setup-vp@v1.20.0
       - uses: actions/cache@v5
         id: playwright-cache
         with:
