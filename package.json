@@ -69,7 +69,10 @@
     "ini": "7.0.0",
     "path-browserify": "1.0.1",
     "typescript": "7.0.2",
-    "vite-plus": "1.1.0"
+    "vite-plus": "0.0.0-commit.943ee4a9e322a7ad4b1b4113f844cd541a10b159"
+  },
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.0.0-commit.943ee4a9e322a7ad4b1b4113f844cd541a10b159"
   },
   "devEngines": {
     "packageManager": {
